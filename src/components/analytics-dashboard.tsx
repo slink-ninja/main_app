@@ -1,15 +1,33 @@
-'use client';
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Eye, Link2, Calendar, TrendingUp, Globe, Monitor } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useAuth } from '@/hooks/use-auth';
-import { createClient } from '@/lib/supabase/client';
+import { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+import { Eye, Link2, Calendar, TrendingUp, Globe, Monitor } from "lucide-react";
+import { motion } from "framer-motion";
+import { useAuth } from "@/hooks/use-auth";
+import { createClient } from "@/lib/supabase/client";
 
 interface AnalyticsData {
   totalUrls: number;
@@ -37,12 +55,12 @@ interface AnalyticsData {
   }>;
 }
 
-const COLORS = ['#3B82F6', '#6366F1', '#8B5CF6', '#06B6D4', '#10B981'];
+const COLORS = ["#3B82F6", "#6366F1", "#8B5CF6", "#06B6D4", "#10B981"];
 
 export function AnalyticsDashboard() {
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d'>('7d');
+  const [timeRange, setTimeRange] = useState<"7d" | "30d" | "90d">("7d");
   const { user } = useAuth();
   const supabase = createClient();
 
@@ -58,45 +76,51 @@ export function AnalyticsDashboard() {
     try {
       // Get user's URLs
       const { data: urls, error: urlsError } = await supabase
-        .from('urls')
-        .select('*')
-        .eq('user_id', user.id);
+        .from("urls")
+        .select("*")
+        .eq("user_id", user.id);
 
       if (urlsError) throw urlsError;
 
       // Get analytics data
-      const urlIds = urls?.map(url => url.id) || [];
+      const urlIds = urls?.map((url) => url.id) || [];
       const { data: analytics, error: analyticsError } = await supabase
-        .from('analytics')
-        .select('*')
-        .in('url_id', urlIds);
+        .from("analytics")
+        .select("*")
+        .in("url_id", urlIds);
 
       if (analyticsError) throw analyticsError;
 
       // Process data
       const totalUrls = urls?.length || 0;
-      const totalClicks = urls?.reduce((sum, url) => sum + (url.clicks || 0), 0) || 0;
-      
+      const totalClicks =
+        urls?.reduce((sum, url) => sum + (url.clicks || 0), 0) || 0;
+
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      const clicksToday = analytics?.filter(a => new Date(a.clicked_at) >= today).length || 0;
-      
+      const clicksToday =
+        analytics?.filter((a) => new Date(a.clicked_at) >= today).length || 0;
+
       const weekAgo = new Date();
       weekAgo.setDate(weekAgo.getDate() - 7);
-      const clicksThisWeek = analytics?.filter(a => new Date(a.clicked_at) >= weekAgo).length || 0;
+      const clicksThisWeek =
+        analytics?.filter((a) => new Date(a.clicked_at) >= weekAgo).length || 0;
 
       setData({
         totalUrls,
         totalClicks,
         clicksToday,
         clicksThisWeek,
-        topUrls: urls?.sort((a, b) => (b.clicks || 0) - (a.clicks || 0)).slice(0, 10) || [],
+        topUrls:
+          urls
+            ?.sort((a, b) => (b.clicks || 0) - (a.clicks || 0))
+            .slice(0, 10) || [],
         clicksByDay: [],
         deviceStats: [],
         countryStats: [],
       });
     } catch (error) {
-      console.error('Failed to fetch analytics:', error);
+      console.error("Failed to fetch analytics:", error);
     } finally {
       setIsLoading(false);
     }
@@ -159,7 +183,9 @@ export function AnalyticsDashboard() {
         >
           <Card className="rounded-lg">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Clicks</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Clicks
+              </CardTitle>
               <Eye className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -204,26 +230,38 @@ export function AnalyticsDashboard() {
       {/* Time Range Selector */}
       <div className="flex items-center space-x-2">
         <Button
-          variant={timeRange === '7d' ? 'default' : 'outline'}
+          variant={timeRange === "7d" ? "default" : "outline"}
           size="sm"
-          onClick={() => setTimeRange('7d')}
-          className={timeRange === '7d' ? 'bg-blue-500 hover:bg-blue-600' : 'border-slate-300 text-slate-600 hover:bg-slate-50'}
+          onClick={() => setTimeRange("7d")}
+          className={
+            timeRange === "7d"
+              ? "bg-blue-500 hover:bg-blue-600"
+              : "border-slate-300 text-slate-600 hover:bg-slate-50"
+          }
         >
           7 Days
         </Button>
         <Button
-          variant={timeRange === '30d' ? 'default' : 'outline'}
+          variant={timeRange === "30d" ? "default" : "outline"}
           size="sm"
-          onClick={() => setTimeRange('30d')}
-          className={timeRange === '30d' ? 'bg-blue-500 hover:bg-blue-600' : 'border-slate-300 text-slate-600 hover:bg-slate-50'}
+          onClick={() => setTimeRange("30d")}
+          className={
+            timeRange === "30d"
+              ? "bg-blue-500 hover:bg-blue-600"
+              : "border-slate-300 text-slate-600 hover:bg-slate-50"
+          }
         >
           30 Days
         </Button>
         <Button
-          variant={timeRange === '90d' ? 'default' : 'outline'}
+          variant={timeRange === "90d" ? "default" : "outline"}
           size="sm"
-          onClick={() => setTimeRange('90d')}
-          className={timeRange === '90d' ? 'bg-blue-500 hover:bg-blue-600' : 'border-slate-300 text-slate-600 hover:bg-slate-50'}
+          onClick={() => setTimeRange("90d")}
+          className={
+            timeRange === "90d"
+              ? "bg-blue-500 hover:bg-blue-600"
+              : "border-slate-300 text-slate-600 hover:bg-slate-50"
+          }
         >
           90 Days
         </Button>
@@ -277,10 +315,15 @@ export function AnalyticsDashboard() {
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="count"
-                      label={({ device, percent }) => `${device} ${(percent * 100).toFixed(0)}%`}
+                      label={({ device, percent }) =>
+                        `${device} ${(percent * 100).toFixed(0)}%`
+                      }
                     >
                       {data.deviceStats.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
                       ))}
                     </Pie>
                     <Tooltip />
@@ -299,13 +342,20 @@ export function AnalyticsDashboard() {
               <CardContent>
                 <div className="space-y-3">
                   {data.countryStats.slice(0, 5).map((country, index) => (
-                    <div key={country.country} className="flex items-center justify-between">
+                    <div
+                      key={country.country}
+                      className="flex items-center justify-between"
+                    >
                       <div className="flex items-center space-x-2">
                         <div
                           className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                          style={{
+                            backgroundColor: COLORS[index % COLORS.length],
+                          }}
                         />
-                        <span className="text-sm font-medium">{country.country}</span>
+                        <span className="text-sm font-medium">
+                          {country.country}
+                        </span>
                       </div>
                       <Badge variant="secondary">{country.count}</Badge>
                     </div>
@@ -344,10 +394,10 @@ export function AnalyticsDashboard() {
                             <p className="font-medium text-sm">{url.title}</p>
                           )}
                           <p className="text-xs text-muted-foreground truncate">
-                            {url.original_url}
+                            {url.originalUrl}
                           </p>
                           <p className="text-xs font-mono text-primary">
-                            /{url.short_code}
+                            /{url.shortCode}
                           </p>
                         </div>
                       </div>

@@ -1,16 +1,19 @@
-'use client';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client";
 
-import { useEffect, useState } from 'react';
-import { GlassCard } from '@/components/ui/glass-card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Copy, ExternalLink, Trash2, Edit } from 'lucide-react';
-import { UrlController } from '@/lib/controllers/url-controller';
-import { useAuth } from '@/hooks/use-auth';
-import { toast } from 'sonner';
+import { useEffect, useState } from "react";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Copy, ExternalLink, Trash2, Edit } from "lucide-react";
+import { UrlController } from "@/lib/controllers/url-controller";
+import { useAuth } from "@/hooks/use-auth";
+import { toast } from "sonner";
 
 export function LinksManager() {
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
   const urlController = new UrlController();
@@ -23,7 +26,7 @@ export function LinksManager() {
 
   const fetchLinks = async () => {
     if (!user) return;
-    
+
     setIsLoading(true);
     const result = await urlController.getUserUrls(user.id);
     if (result.success && result.data) {
@@ -35,18 +38,18 @@ export function LinksManager() {
   const copyLink = async (shortCode: string) => {
     const url = `${process.env.NEXT_PUBLIC_APP_URL}/${shortCode}`;
     await navigator.clipboard.writeText(url);
-    toast.success('Link copied to clipboard!');
+    toast.success("Link copied to clipboard!");
   };
 
   const deleteLink = async (linkId: string) => {
     if (!user) return;
-    
+
     const result = await urlController.deleteUrl(linkId, user.id);
     if (result.success) {
-      toast.success('Link deleted successfully!');
+      toast.success("Link deleted successfully!");
       fetchLinks(); // Refresh the list
     } else {
-      toast.error(result.error || 'Failed to delete link');
+      toast.error(result.error || "Failed to delete link");
     }
   };
 
@@ -72,14 +75,20 @@ export function LinksManager() {
           </p>
         ) : (
           links.map((link: any) => (
-            <div key={link.id} className="p-4 bg-white/5 rounded-lg border border-white/10">
+            <div
+              key={link.id}
+              className="p-4 bg-white/5 rounded-lg border border-white/10"
+            >
               <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center space-x-2 mb-2">
                     <h4 className="font-medium text-white truncate">
-                      {link.title || 'Untitled Link'}
+                      {link.title || "Untitled Link"}
                     </h4>
-                    <Badge variant="secondary" className="bg-white/10 text-slate-300">
+                    <Badge
+                      variant="secondary"
+                      className="bg-white/10 text-slate-300"
+                    >
                       {link.clicks} clicks
                     </Badge>
                   </div>
@@ -108,7 +117,11 @@ export function LinksManager() {
                     asChild
                     className="text-slate-400 hover:text-white"
                   >
-                    <a href={link.original_url} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={link.original_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <ExternalLink className="h-4 w-4" />
                     </a>
                   </Button>

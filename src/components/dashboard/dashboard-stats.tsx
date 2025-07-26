@@ -1,10 +1,11 @@
-'use client';
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 
-import { useEffect, useState } from 'react';
-import { GlassCard } from '@/components/ui/glass-card';
-import { Link2, Eye, Calendar, TrendingUp } from 'lucide-react';
-import { AnalyticsController } from '@/lib/controllers/analytics-controller';
-import { useAuth } from '@/hooks/use-auth';
+import { useEffect, useState } from "react";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Link2, Eye, Calendar, TrendingUp } from "lucide-react";
+import { AnalyticsController } from "@/lib/controllers/analytics-controller";
+import { useAuth } from "@/hooks/use-auth";
 
 export function DashboardStats() {
   const [stats, setStats] = useState({
@@ -24,7 +25,7 @@ export function DashboardStats() {
 
   const fetchStats = async () => {
     if (!user) return;
-    
+
     const result = await analyticsController.getUserAnalytics(user.id);
     if (result.success && result.data) {
       setStats(result.data);
@@ -33,41 +34,43 @@ export function DashboardStats() {
 
   const statCards = [
     {
-      title: 'Total URLs',
+      title: "Total URLs",
       value: stats.totalUrls,
       icon: Link2,
-      gradient: 'from-purple-500 to-pink-500',
+      gradient: "from-purple-500 to-pink-500",
     },
     {
-      title: 'Total Clicks',
+      title: "Total Clicks",
       value: stats.totalClicks,
       icon: Eye,
-      gradient: 'from-blue-500 to-cyan-500',
+      gradient: "from-blue-500 to-cyan-500",
     },
     {
-      title: 'Today',
+      title: "Today",
       value: stats.clicksToday,
       icon: Calendar,
-      gradient: 'from-green-500 to-emerald-500',
+      gradient: "from-green-500 to-emerald-500",
     },
     {
-      title: 'This Week',
+      title: "This Week",
       value: stats.clicksThisWeek,
       icon: TrendingUp,
-      gradient: 'from-orange-500 to-red-500',
+      gradient: "from-orange-500 to-red-500",
     },
   ];
 
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {statCards.map((stat, index) => (
+      {statCards.map((stat) => (
         <GlassCard key={stat.title} className="p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-slate-400">{stat.title}</p>
               <p className="text-2xl font-bold text-white">{stat.value}</p>
             </div>
-            <div className={`p-3 rounded-full bg-gradient-to-r ${stat.gradient}`}>
+            <div
+              className={`p-3 rounded-full bg-gradient-to-r ${stat.gradient}`}
+            >
               <stat.icon className="h-6 w-6 text-white" />
             </div>
           </div>

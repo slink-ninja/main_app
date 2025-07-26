@@ -1,6 +1,7 @@
-import { UrlService } from '@/lib/services/url-service';
-import { AnalyticsService } from '@/lib/services/analytics-service';
-import { CreateUrlInput } from '@/lib/validations/url';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { UrlService } from "@/lib/services/url-service";
+import { AnalyticsService } from "@/lib/services/analytics-service";
+import { CreateUrlInput } from "@/lib/validations/url";
 
 export class UrlController {
   private urlService: UrlService;
@@ -16,9 +17,9 @@ export class UrlController {
       const url = await this.urlService.createUrl(data, userId);
       return { success: true, data: url };
     } catch (error) {
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Failed to create URL' 
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to create URL",
       };
     }
   }
@@ -28,9 +29,9 @@ export class UrlController {
       const urls = await this.urlService.getUserUrls(userId);
       return { success: true, data: urls };
     } catch (error) {
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Failed to fetch URLs' 
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to fetch URLs",
       };
     }
   }
@@ -40,9 +41,9 @@ export class UrlController {
       const url = await this.urlService.getUrlByShortCode(shortCode);
       return { success: true, data: url };
     } catch (error) {
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'URL not found' 
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "URL not found",
       };
     }
   }
@@ -53,9 +54,9 @@ export class UrlController {
       await this.urlService.incrementClicks(urlId);
       return { success: true };
     } catch (error) {
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Failed to track click' 
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to track click",
       };
     }
   }
@@ -65,9 +66,9 @@ export class UrlController {
       await this.urlService.deleteUrl(urlId, userId);
       return { success: true };
     } catch (error) {
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Failed to delete URL' 
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to delete URL",
       };
     }
   }

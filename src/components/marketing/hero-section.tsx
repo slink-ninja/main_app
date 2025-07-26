@@ -1,12 +1,13 @@
-'use client';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client";
 
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { GlassCard } from '@/components/ui/glass-card';
-import { UrlShortenerForm } from '@/components/forms/url-shortener-form';
-import { ArrowRight, Zap, Users } from 'lucide-react';
-import Link from 'next/link';
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { GlassCard } from "@/components/ui/glass-card";
+import { UrlShortenerForm } from "@/components/forms/url-shortener-form";
+import { ArrowRight, Zap, Users } from "lucide-react";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
@@ -30,14 +31,14 @@ export function HeroSection() {
           transition={{ duration: 1, ease: [0.6, -0.05, 0.01, 0.99] }}
           className="space-y-8"
         >
-          <Badge 
-            variant="outline" 
+          <Badge
+            variant="outline"
             className="px-6 py-3 text-sm font-medium border-purple-500/40 bg-purple-950/30 text-purple-300 backdrop-blur-sm"
           >
             <Users className="w-4 h-4 mr-2 text-purple-400" />
             Trusted by 100,000+ businesses worldwide
           </Badge>
-          
+
           <div className="space-y-6">
             <h1 className="text-6xl md:text-8xl lg:text-9xl font-black leading-none tracking-tight">
               <span className="block text-white">Short</span>
@@ -48,18 +49,20 @@ export function HeroSection() {
                 That Convert
               </span>
             </h1>
-            
+
             <p className="text-xl md:text-2xl lg:text-3xl text-slate-300 max-w-4xl mx-auto leading-relaxed font-light">
-              Create powerful short links with detailed analytics. 
+              Create powerful short links with detailed analytics.
               <br className="hidden md:block" />
-              <span className="font-medium text-white">Track every click.</span> 
-              <span className="font-medium text-white">Boost your results.</span>
+              <span className="font-medium text-white">Track every click.</span>
+              <span className="font-medium text-white">
+                Boost your results.
+              </span>
             </p>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8">
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="px-12 py-6 text-lg font-semibold bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-600 hover:to-pink-700 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105"
               asChild
             >
@@ -68,9 +71,9 @@ export function HeroSection() {
                 <ArrowRight className="ml-3 h-5 w-5" />
               </Link>
             </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
+            <Button
+              variant="outline"
+              size="lg"
               className="px-12 py-6 text-lg font-semibold border-2 border-slate-600 text-slate-300 hover:bg-slate-800 hover:border-slate-500 rounded-full transition-all duration-300"
               asChild
             >

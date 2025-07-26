@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    serverComponentsExternalPackages: [],
+  },
+  // Ensure proper handling of client components
+  webpack: (config) => {
+    return config;
+  },
 };
 
 export default nextConfig;

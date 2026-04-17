@@ -1,22 +1,11 @@
 import { createBrowserClient } from "@supabase/ssr";
-import type { SupabaseClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey =
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-const createServerStub = (): SupabaseClient => {
-  return {
-    auth: {},
-  } as SupabaseClient;
-};
-
 export const createClient = () => {
-  if (typeof window === "undefined") {
-    return createServerStub();
-  }
-
   if (!supabaseUrl || !supabaseKey) {
     throw new Error(
       "Missing Supabase environment variables. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY (or NEXT_PUBLIC_SUPABASE_ANON_KEY)."
